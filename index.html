@@ -120,7 +120,7 @@
       font-family: 'Satisfy', cursive;
       font-size: 3.8rem; /* Aumentado um pouco */
       font-weight: normal;
-      margin-bottom: 30px;
+      margin-bottom: 20px; /* Ajuste para dar espaço ao contador */
       color: #fff0f5; /* Cor mais clara */
       text-shadow: 4px 4px 15px #ff66b2, 0 0 25px rgba(255, 255, 255, 0.7); /* Sombra mais forte */
       letter-spacing: 2px; /* Aumentado o espaçamento */
@@ -130,6 +130,51 @@
       color: #ffe4e1;
       text-shadow: 2px 2px 10px #ffb3d9;
     }
+
+    /* Estilo para o contador de dias */
+    #daysCounter {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.2rem; /* Aumentado */
+      font-weight: bold; /* Mais negrito */
+      color: #ffefff; /* Cor branca-rosada para maior contraste */
+      background: linear-gradient(45deg, rgba(255, 105, 180, 0.6), rgba(255, 182, 193, 0.5)); /* Gradiente de fundo */
+      padding: 15px 25px; /* Aumentado */
+      border-radius: 20px; /* Mais arredondado */
+      display: inline-block;
+      text-shadow:
+        3px 3px 10px rgba(0, 0, 0, 0.7), /* Sombra preta para profundidade */
+        0 0 15px #fff, /* Brilho branco */
+        0 0 25px #ff69b4; /* Brilho rosa */
+      margin-bottom: 35px; /* Mais espaçamento abaixo */
+      border: 3px solid #ffcced; /* Borda mais visível */
+      box-shadow:
+        0 0 20px rgba(255, 105, 180, 0.9), /* Sombra externa forte */
+        0 0 40px rgba(255, 182, 193, 0.7) inset; /* Sombra interna para profundidade */
+      animation: pulseGlowDays 2.5s infinite alternate ease-in-out; /* Animação mais perceptível */
+      letter-spacing: 1.5px;
+    }
+
+    @keyframes pulseGlowDays {
+      0% {
+        transform: scale(1);
+        box-shadow:
+          0 0 20px rgba(255, 105, 180, 0.9),
+          0 0 40px rgba(255, 182, 193, 0.7) inset;
+      }
+      50% {
+        transform: scale(1.03); /* Levemente maior no meio da pulsação */
+        box-shadow:
+          0 0 30px rgba(255, 105, 180, 1),
+          0 0 50px rgba(255, 182, 193, 0.8) inset;
+      }
+      100% {
+        transform: scale(1);
+        box-shadow:
+          0 0 20px rgba(255, 105, 180, 0.9),
+          0 0 40px rgba(255, 182, 193, 0.7) inset;
+      }
+    }
+
 
     .heart-btn {
       font-size: 2.6rem; /* Aumentado */
@@ -344,7 +389,7 @@
     .gallery-item-wrapper:nth-child(odd) .polaroid-frame { --rotation: -4deg; } /* Rotação ligeiramente maior */
     .gallery-item-wrapper:nth-child(even) .polaroid-frame { --rotation: 4deg; } /* Rotação ligeiramente maior */
     .gallery-item-wrapper:hover .polaroid-frame {
-        transform: rotate(0deg) scale(1.03); /* Endireita e aumenta um pouco */
+        transform: rotate(0deg) scale(1.03); /* Endereita e aumenta um pouco */
         box-shadow: 0 12px 35px rgba(0,0,0,0.5); /* Sombra mais proeminente no hover */
     }
 
@@ -451,6 +496,7 @@
         max-width: 700px;
       }
       h1 { font-size: 3.2rem; /* Ajuste responsivo */ }
+      #daysCounter { font-size: 2.8rem; padding: 12px 22px; margin-bottom: 30px;} /* Ajuste para tablets */
       .heart-btn { font-size: 2.4rem; padding: 14px 30px; }
       .message-text { font-size: 3.0rem; padding: 55px 45px; }
       .footer { font-size: 2.3rem; padding: 25px 45px; }
@@ -478,6 +524,7 @@
         max-width: 95%;
       }
       h1 { font-size: 2.8rem; letter-spacing: 1.5px; }
+      #daysCounter { font-size: 2.5rem; padding: 10px 20px; margin-bottom: 25px;} /* Ajuste para celulares grandes */
       h1 span { font-size: 1em; }
       .heart-btn { font-size: 2.0rem; padding: 12px 26px; margin: 20px 10px; }
       .hidden-message { margin-top: 40px; font-size: 1.4rem; line-height: 1.7; }
@@ -510,6 +557,7 @@
     @media (max-width: 576px) {
       body { padding: 15px 10px; }
       h1 { font-size: 2.2rem; letter-spacing: 1px; margin-bottom: 25px; }
+      #daysCounter { font-size: 2.0rem; padding: 8px 15px; margin-bottom: 20px;} /* Ajuste para celulares pequenos */
       .heart-btn { font-size: 1.8rem; padding: 10px 22px; margin: 15px 8px; }
       .hidden-message { margin-top: 30px; font-size: 1.3rem; line-height: 1.6; }
       .message-text {
@@ -665,6 +713,8 @@
   <main class="container">
     <h1>Feliz Dia dos Namorados<br><span style="font-family: 'Satisfy', cursive;">Minha princesa 🤍</span></h1>
 
+    <div id="daysCounter"></div>
+
     <button class="heart-btn" onclick="toggleMessage()">💜 amor 💜</button>
 
     <div class="hidden-message" id="msg">
@@ -722,6 +772,23 @@
   </div>
 
   <script>
+    function updateDaysCounter() {
+      const startDate = new Date('2025-04-01T00:00:00'); // Data de início: 01/04/2025
+      const fixedDate = new Date('2025-06-12T00:00:00'); // Data fixada: 12/06/2025
+
+      const diffTime = Math.abs(fixedDate - startDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      // Formata a data fixa para exibição
+      const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      const formattedDate = fixedDate.toLocaleDateString('pt-BR', options);
+
+      const daysCounterElement = document.getElementById('daysCounter');
+      if (daysCounterElement) {
+        daysCounterElement.innerHTML = `Hoje é <span style="color: #fff; text-shadow: 1px 1px 5px #ff66b2;">${formattedDate}</span> e estamos juntos há <span style="color: #fff; text-shadow: 1px 1px 5px #ff66b2;">${diffDays}</span> dias de puro amor! ❤️`;
+      }
+    }
+
     function toggleMessage() {
       const msg = document.getElementById("msg");
       const gallery = document.getElementById('gallery');
@@ -766,13 +833,13 @@
       // MODIFICAÇÃO AQUI: Ajustei a detecção de URLs do YouTube.
       // Se a URL for um vídeo do YouTube (formatos comuns), trate-o como tal.
       // Caso contrário, trate-o como um arquivo de vídeo local (dentro do seu repositório).
-      if (videoUrl.includes('youtube.com/watch?v=') || videoUrl.includes('youtu.be/')) { // Detecção de YouTube mais genérica
+      if (videoUrl.includes('youtube.com/watch?v=') || videoUrl.includes('youtu.be/')) {
         const iframe = document.createElement('iframe');
         let embedUrl = videoUrl;
         if (videoUrl.includes('watch?v=')) {
           embedUrl = videoUrl.replace('watch?v=', 'embed/');
         } else if (videoUrl.includes('youtu.be/')) {
-            embedUrl = videoUrl.replace('youtu.be/', 'www.youtube.com/embed/');
+          embedUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
         }
         embedUrl = embedUrl.split('&t=')[0].split('?t=')[0]; // Remove timestamp e outros parâmetros irrelevantes
         iframe.setAttribute('src', embedUrl + '?autoplay=1&mute=0');
@@ -831,6 +898,11 @@
         });
       };
       tryPlay();
+
+      // Inicializa o contador de dias ao carregar a página
+      updateDaysCounter();
+      // Não é mais necessário atualizar a cada 24h, pois a data é fixa
+      // setInterval(updateDaysCounter, 1000 * 60 * 60 * 24);
     });
   </script>
 </body>
